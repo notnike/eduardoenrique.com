@@ -3,45 +3,50 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Magic Word</title>
+  <title>PDF Portfolio</title>
   <style>
     body {
       background: black;
+      color: white;
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
       height: 100vh;
-      color: white;
-      overflow: hidden;
-      position: relative;
-    }
-
-    /* Top-right large text */
-    #title-text {
-      position: absolute;
-      top: 40px; /* 👈 adjust spacing from top */
-      right: 40px; /* 👈 adjust spacing from right */
-      font-size: 64px; /* 👈 control text size */
-      line-height: 1.2; /* 👈 control spacing between lines */
-      text-align: right;
-      white-space: pre-line;
-    }
-
-    /* Password and button container */
-    #login {
-      position: absolute;
-      bottom: 60px; /* 👈 controls spacing from bottom edge */
-      width: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-end;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .year {
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .headline {
+      font-size: 48px;
+      line-height: 1.2;
+      text-align: center;
+      max-width: 90%;
+    }
+
+    .instruction {
+      font-size: 14px;
+      text-align: center;
+      margin-top: 30px;
+      font-weight: bold;
+    }
+
+    .login-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
     }
 
     input[type="password"] {
       padding: 10px;
       font-size: 16px;
-      margin: 5px;
       border-radius: 4px;
       border: none;
     }
@@ -49,7 +54,6 @@
     button {
       padding: 10px 20px;
       font-size: 16px;
-      margin-top: 5px;
       cursor: pointer;
       border-radius: 4px;
       border: none;
@@ -68,9 +72,17 @@
   </style>
 </head>
 <body>
-  <div id="title-text">What’s<br>the magic<br>word?</div>
+  <div class="year">2025</div>
 
-  <div id="login">
+  <div class="headline">
+    My ego wanted<br>
+    a fancy site—HR just wants<br>
+    a PDF portfolio.
+  </div>
+
+  <div class="instruction">(ENTER THE MAGIC WORD BELOW)</div>
+
+  <div class="login-row">
     <input type="password" id="password" placeholder="Password" />
     <button onclick="checkPassword()">Enter</button>
   </div>
@@ -79,10 +91,10 @@
 
   <script>
     function checkPassword() {
-      const correctPassword = "1234"; // 👈 Set your password
+      const correctPassword = "1234"; // 👈 Change this
       const input = document.getElementById("password").value;
       if (input === correctPassword) {
-        window.location.href = "your-file.pdf"; // 👈 PDF redirect
+        window.location.href = "your-file.pdf"; // 👈 Replace with your PDF filename
       } else {
         alert("Incorrect password");
       }
