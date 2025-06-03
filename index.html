@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Protected PDF</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      font-size: 18px; /* 👈 Change this for text size */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    input[type="password"] {
+      padding: 10px;
+      font-size: 16px;
+      margin-top: 10px;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin-top: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    #pdf-container {
+      display: none;
+      margin-top: 20px;
+      width: 90%;
+      height: 90vh;
+    }
+  </style>
+</head>
+<body>
+  <div id="login">
+    <div>Enter password to access the file:</div>
+    <input type="password" id="password" />
+    <button onclick="checkPassword()">Enter</button>
+  </div>
+
+  <div id="pdf-container">
+    <embed src="your-file.pdf" type="application/pdf" width="100%" height="100%" />
+  </div>
+
+  <script>
+    function checkPassword() {
+      const correctPassword = "1234"; // 👈 Change this
+      const input = document.getElementById("password").value;
+      if (input === correctPassword) {
+        document.getElementById("login").style.display = "none";
+        document.getElementById("pdf-container").style.display = "block";
+      } else {
+        alert("Incorrect password");
+      }
+    }
+  </script>
+</body>
+</html>
