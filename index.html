@@ -62,8 +62,7 @@
       const correctPassword = "PLEASE"; // 👈 Change this
       const input = document.getElementById("password").value;
       if (input === correctPassword) {
-        document.getElementById("login").style.display = "none";
-        document.getElementById("pdf-container").style.display = "block";
+        window.location.href = "your-file.pdf";
       } else {
         alert("That's not it!");
       }
