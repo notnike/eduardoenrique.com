@@ -1,10 +1,150 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Eduardo Enrique</title>
-    <meta http-equiv="refresh" content="0; URL='/agencywork'" />
-  </head>
-  <body>
-    <p>Redirecting...</p>
-  </body>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>EDUARDO ENRIQUE - INRI</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/three@0.140.0/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.140.0/examples/js/loaders/GLTFLoader.js"></script>
+</head>
+
+<body class="is-loading">
+  <div id="menuCatcher" class="hidden"></div>
+  <div id="headerBox">
+    <div id="name" class="name">eduardo enrique</div>
+    <div id="links" class="links">
+      <div id="aboutButton" class="menuItem">
+        <p>about</p>
+      </div>
+      <div id="selectedWorksButton" class="menuItem is-hidden">
+        <p>selected works</p>
+      </div>
+      <div id="contactButton" class="menuItem">
+        <p>contact</p>
+      </div>
+      <div id="pressButton" class="menuItem is-hidden">
+        <p>press</p>
+      </div>
+      <div id="shopButton" class="shop menuItem">shop</div>
+    </div>
+    <div id="copyright" class="copyright">&copy; 2025 All Rights Reserved</div>
+  </div>
+  <div id="selectedWorks" class="hidden">
+    <div id="worksCol1"></div>
+    <div id="worksCol2"></div>
+  </div>
+  <div id="menuContent" class="hidden">
+    <div id="about" class="aboutContent hidden">
+      Eduardo Enrique’s practice examines contemporary forms of ideology and the cultural mechanisms through which
+      they are produced, disseminated, and reinforced. Spanning sculptural assemblage, installation, graffiti, and
+      industrial manufacturing, his work explores the intersections of consumer culture and geopolitical power
+      structures. By recontextualizing branded goods and corporate symbols, Enrique exposes how capital abstracts
+      itself into systems of meaning, instrumentalizing consumption to embed and perpetuate social and political
+      structures.
+      </br></br>
+      A former strategist with a background in advertising and cultural strategy, his practice engages branding as
+      both medium and subject, operating within the very systems it critiques. The ‘Swoosh,’ a recurring motif in
+      his
+      work, serves as a real-time interrogation of cultural power, exposing the ideological inscriptions embedded
+      in
+      everyday commodities and the economic hierarchies they sustain.
+      </br></br>
+      Eduardo Enrique was born in Venezuela in 1989 and holds a BFA from Parsons The New School for Design. He
+      lives
+      and works between Southeast Asia and the Middle East.
+      </br></br>
+      <a href="./cv.txt" download>DOWNLOAD CV</a>
+    </div>
+    <div id="contact" class="contactContent hidden">
+      <p>EDUARDO ENRIQUE</p>
+
+      <p>
+        Studio Inquiries:
+        <a href="mailto:contact@eduardoenrique.com">contact@eduardoenrique.com</a>
+      </p>
+
+      <p>
+        Gallery Inquiries:
+        <a href="https://shankay.com">SHANKAY</a> | <a href="mailto:info@shankay.com">info@shankay.com</a>
+      </p>
+
+      <p>
+        <a href="https://www.instagram.com/eduardo_______enrique/">INSTAGRAM</a>
+      </p>
+
+      <p>
+        Subscribe to Mailing List:
+      <div id="subscribeHolder">
+        <form id="subscribe-form"
+          action="https://docs.google.com/forms/d/e/1FAIpQLSdhJTMDjMsLERzpJPzp8CE2jZSDF-3L72PmF32Zf653KKL6VQ/formResponse"
+          method="post">
+          <input type="email" id="subscribeInput" name="entry.204415219" required>
+        </form>
+        <div id="subscribeButton" class="menuItem">SEND</div>
+      </div>
+      </p>
+    </div>
+    <div id="press" class="pressContent hidden">
+      <a href="https://vogue.sg/eduardo-enrique-singapore-artist-fashion-painting-art-spray-paint-canvas/"
+        target="_blank">
+        "What Is A Fashion Painting?" - VOGUE Singapore (2021)
+      </a>
+      <br><br>
+
+      <a href="https://vogue.sg/eduardo-enrique-singapore-artist-fashion-painting-art-spray-paint-canvas/"
+        target="_blank">
+        "What Is A Fashion Painting?" - VOGUE Singapore (2021)
+      </a>
+      <br><br>
+
+      <a href="https://vogue.sg/eduardo-enrique-singapore-artist-fashion-painting-art-spray-paint-canvas/"
+        target="_blank">
+        "What Is A Fashion Painting?" - VOGUE Singapore (2021)
+      </a>
+      <br><br>
+
+      <a href="https://vogue.sg/eduardo-enrique-singapore-artist-fashion-painting-art-spray-paint-canvas/"
+        target="_blank">
+        "What Is A Fashion Painting?" - VOGUE Singapore (2021)
+      </a>
+      <br><br>
+
+      <a href="https://vogue.sg/eduardo-enrique-singapore-artist-fashion-painting-art-spray-paint-canvas/"
+        target="_blank">
+        "What Is A Fashion Painting?" - VOGUE Singapore (2021)
+      </a>
+    </div>
+  </div>
+  <div id="loadingScreen">
+    <div id="disclaimer" class="menuText">
+      <p>This work critically engages with the Nike Swoosh as a cultural symbol and is
+        intended as artistic commentary. It is not authorized, endorsed, affiliated with or
+        sponsored by Nike, Inc. The Swoosh is a registered trademark of Nike, Inc.
+      </p>
+      <p>
+        By proceeding, you acknowledge that this content is not associated with Nike, Inc.
+      </p>
+      <div id="consentBox" class="hidden">
+        <div>
+          <input type="checkbox" id="acknowledge">
+          <label for="acknowledge">I Understand & Accept</label>
+        </div>
+        <div>
+          <input type="checkbox" id="takeMeBack">
+          <label for="takeMeBack">Take me back</label>
+        </div>
+
+      </div>
+
+    </div>
+    <div id="loadingAmt" class="menuText"></div>
+  </div>
+  <script type="module" src="./scripts/app.js"></script>
+</body>
+
 </html>
