@@ -11,8 +11,19 @@ body {
 }
 
 :root {
-    --menu-header-min-height: 105px;
+    --ios-status-bar-fallback: 0px;
+    --safe-area-top: max(env(safe-area-inset-top, 0px), var(--ios-status-bar-fallback));
+    --menu-header-min-height: calc(105px + var(--safe-area-top));
+    --menu-top-padding: calc(3ch + var(--safe-area-top));
     --desktop-menu-panel-offset: 80px;
+}
+
+@supports (-webkit-touch-callout: none) {
+    @media (max-width: 1023px) and (hover: none) and (pointer: coarse) {
+        :root {
+            --ios-status-bar-fallback: 28px;
+        }
+    }
 }
 
 html {
@@ -321,7 +332,7 @@ a:visited {
 
 #headerBox {
     padding-left: 3ch;
-    padding-top: 3ch;
+    padding-top: var(--menu-top-padding);
 }
 
 #brand {
@@ -329,11 +340,12 @@ a:visited {
     left: 0%;
     top: 0%;
     padding-left: 3ch;
-    padding-top: 3ch;
+    padding-top: var(--menu-top-padding);
 }
 
 #links {
     position: absolute;
+    top: var(--menu-top-padding);
     height: 100%;
 }
 

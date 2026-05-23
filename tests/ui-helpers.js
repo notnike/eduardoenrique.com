@@ -121,6 +121,66 @@ async function expectLoadingOverlayCoversMobileOverscan(page) {
   expect(extensionHeight).toBeGreaterThanOrEqual(340);
 }
 
+async function expectHeaderHonorsSafeArea(page) {
+  const shifts = await page.evaluate(() => {
+    const root = document.documentElement;
+    const name = document.getElementById('name');
+    const aboutButton = document.getElementById('aboutButton');
+    const worksColumn = document.getElementById('worksCol1');
+    const originalSafeArea = root.style.getPropertyValue('--safe-area-top');
+    const originalFallback = root.style.getPropertyValue('--ios-status-bar-fallback');
+    const before = {
+      nameTop: name.getBoundingClientRect().top,
+      aboutTop: aboutButton.getBoundingClientRect().top,
+      worksTop: parseFloat(getComputedStyle(worksColumn).top),
+    };
+
+    root.style.setProperty('--ios-status-bar-fallback', '28px');
+
+    const withFallback = {
+      nameTop: name.getBoundingClientRect().top,
+      aboutTop: aboutButton.getBoundingClientRect().top,
+      worksTop: parseFloat(getComputedStyle(worksColumn).top),
+    };
+
+    root.style.setProperty('--safe-area-top', '48px');
+
+    const withSafeArea = {
+      nameTop: name.getBoundingClientRect().top,
+      aboutTop: aboutButton.getBoundingClientRect().top,
+      worksTop: parseFloat(getComputedStyle(worksColumn).top),
+    };
+
+    if (originalFallback) {
+      root.style.setProperty('--ios-status-bar-fallback', originalFallback);
+    } else {
+      root.style.removeProperty('--ios-status-bar-fallback');
+    }
+
+    if (originalSafeArea) {
+      root.style.setProperty('--safe-area-top', originalSafeArea);
+    } else {
+      root.style.removeProperty('--safe-area-top');
+    }
+
+    return {
+      fallbackName: withFallback.nameTop - before.nameTop,
+      fallbackAbout: withFallback.aboutTop - before.aboutTop,
+      fallbackWorks: withFallback.worksTop - before.worksTop,
+      safeAreaName: withSafeArea.nameTop - before.nameTop,
+      safeAreaAbout: withSafeArea.aboutTop - before.aboutTop,
+      safeAreaWorks: withSafeArea.worksTop - before.worksTop,
+    };
+  });
+
+  expect(shifts.fallbackName).toBeGreaterThanOrEqual(27);
+  expect(shifts.fallbackAbout).toBeGreaterThanOrEqual(27);
+  expect(shifts.fallbackWorks).toBeGreaterThanOrEqual(27);
+  expect(shifts.safeAreaName).toBeGreaterThanOrEqual(47);
+  expect(shifts.safeAreaAbout).toBeGreaterThanOrEqual(47);
+  expect(shifts.safeAreaWorks).toBeGreaterThanOrEqual(47);
+}
+
 async function expectDisclaimerDoesNotJumpWithOverlayHeight(page) {
   const shift = await page.locator('#disclaimer').evaluate(disclaimer => {
     const root = document.documentElement;
@@ -214,6 +274,7 @@ module.exports = {
   acceptDisclaimer,
   expectCanvasToFillViewport,
   expectDisclaimerDoesNotJumpWithOverlayHeight,
+  expectHeaderHonorsSafeArea,
   expectLoadingOverlayCoversMobileOverscan,
   expectNoOverlap,
   expectPanelClearsShopButton,
