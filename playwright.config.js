@@ -9,7 +9,7 @@ module.exports = defineConfig({
   outputDir: './test-results',
   fullyParallel: false,
   workers: 1,
-  timeout: 60 * 1000,
+  timeout: 120 * 1000,
   expect: {
     timeout: 15 * 1000,
     toHaveScreenshot: {

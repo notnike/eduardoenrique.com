@@ -319,30 +319,17 @@ a:visited {
     pointer-events: auto;
 }
 
-#headerBox,
-.name,
-.copyright {
+#headerBox {
     padding-left: 3ch;
     padding-top: 3ch;
 }
 
-.copyright {
-    left: 0%;
-    margin-top: -35px;
-    position: absolute;
-    top: 100%;
-}
-
-.shop {
-    position: absolute;
-    top: 100%;
-    margin-top: -35px;
-}
-
-.name {
+#brand {
     position: absolute;
     left: 0%;
     top: 0%;
+    padding-left: 3ch;
+    padding-top: 3ch;
 }
 
 #links {
