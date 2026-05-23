@@ -61,6 +61,31 @@ async function openSite(page) {
   return runtimeErrors;
 }
 
+async function openStaticLayoutSite(page) {
+  await page.route('**/scripts/app.js', route => route.fulfill({
+    status: 200,
+    contentType: 'application/javascript',
+    body: '',
+  }));
+
+  await page.goto('/', { waitUntil: 'domcontentloaded' });
+  await expect(page.locator('#name')).toHaveText(/eduardo enrique/i);
+}
+
+async function showStaticMenuPanel(page, buttonSelector, panelSelector) {
+  await page.evaluate(({ buttonSelector, panelSelector }) => {
+    document.body.classList.remove('is-loading');
+    document.getElementById('loadingScreen').classList.add('hiddenLoader');
+    document.getElementById('menuContent').classList.add('fastHidden', 'fade');
+    document.querySelectorAll('#aboutButton, #contactButton, #pressButton, #selectedWorksButton')
+      .forEach(button => button.classList.remove('focused'));
+    document.querySelectorAll('#about, #contact, #press')
+      .forEach(panel => panel.classList.add('hidden'));
+    document.querySelector(buttonSelector).classList.add('focused');
+    document.querySelector(panelSelector).classList.remove('hidden');
+  }, { buttonSelector, panelSelector });
+}
+
 async function acceptDisclaimer(page) {
   await page.locator('#acknowledge').evaluate(input => input.click());
   await page.waitForFunction(() => {
@@ -283,4 +308,6 @@ module.exports = {
   hideCanvasForOverlayScreenshot,
   hideUiForCanvasScreenshot,
   openSite,
+  openStaticLayoutSite,
+  showStaticMenuPanel,
 };

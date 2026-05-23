@@ -6,7 +6,7 @@
   "scripts": {
     "prepare": "git config core.hooksPath .githooks || true",
     "setup-hooks": "git config core.hooksPath .githooks",
-    "test": "playwright test",
+    "test": "scripts/run-playwright-tests.sh",
     "test:ui": "playwright test --ui",
     "test:update-snapshots": "playwright test --update-snapshots"
   },

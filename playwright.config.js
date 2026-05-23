@@ -24,12 +24,14 @@ module.exports = defineConfig({
     screenshot: 'only-on-failure',
     trace: 'on-first-retry',
   },
-  webServer: {
-    command: `npx http-server . -a ${HOST} -p ${PORT} -c-1 --silent`,
-    url: baseURL,
-    reuseExistingServer: !process.env.CI,
-    timeout: 120 * 1000,
-  },
+  webServer: process.env.PLAYWRIGHT_NO_WEBSERVER
+    ? undefined
+    : {
+      command: `npx http-server . -a ${HOST} -p ${PORT} -c-1 --silent`,
+      url: baseURL,
+      reuseExistingServer: !process.env.CI,
+      timeout: 120 * 1000,
+    },
   projects: [
     {
       name: 'chromium-desktop',
