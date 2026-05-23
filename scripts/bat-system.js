@@ -1,7 +1,16 @@
 const INITIAL_POOL_SIZE = 500;
 const SINE_TABLE_SIZE = 4096;
 const SINE_TABLE_MASK = SINE_TABLE_SIZE - 1;
-const BAT_MOTION_SPEED_SCALE = 0.5;
+const BAT_FLOAT_SPEED_SCALE = 0.5;
+const BAT_FLOAT_BASE_OFFSET_RANGE = 0.05;
+const BAT_FLOAT_PRIMARY_AMPLITUDE_MIN = 0.011;
+const BAT_FLOAT_PRIMARY_AMPLITUDE_RANGE = 0.018;
+const BAT_FLOAT_SECONDARY_AMPLITUDE_MIN = 0.004;
+const BAT_FLOAT_SECONDARY_AMPLITUDE_RANGE = 0.008;
+const BAT_FLOAT_PRIMARY_FREQUENCY_MIN = 0.08;
+const BAT_FLOAT_PRIMARY_FREQUENCY_RANGE = 0.08;
+const BAT_FLOAT_SECONDARY_FREQUENCY_MIN = 0.13;
+const BAT_FLOAT_SECONDARY_FREQUENCY_RANGE = 0.13;
 
 function createSimpleCross(THREE) {
   const crossMaterial = new THREE.MeshStandardMaterial({ color: 0x000000 });
@@ -47,11 +56,11 @@ function hash2D(x, z, salt = 0) {
 
 function getBatMotionFromPosition(x, z) {
   return {
-    baseOffset: (hash2D(x, z, 1) - 0.5) * 0.08,
-    primaryAmplitude: 0.025 + hash2D(x, z, 2) * 0.03,
-    secondaryAmplitude: 0.008 + hash2D(x, z, 3) * 0.015,
-    primaryFrequency: 0.045 + hash2D(x, z, 4) * 0.055,
-    secondaryFrequency: 0.08 + hash2D(x, z, 5) * 0.095,
+    baseOffset: (hash2D(x, z, 1) - 0.5) * BAT_FLOAT_BASE_OFFSET_RANGE,
+    primaryAmplitude: BAT_FLOAT_PRIMARY_AMPLITUDE_MIN + hash2D(x, z, 2) * BAT_FLOAT_PRIMARY_AMPLITUDE_RANGE,
+    secondaryAmplitude: BAT_FLOAT_SECONDARY_AMPLITUDE_MIN + hash2D(x, z, 3) * BAT_FLOAT_SECONDARY_AMPLITUDE_RANGE,
+    primaryFrequency: BAT_FLOAT_PRIMARY_FREQUENCY_MIN + hash2D(x, z, 4) * BAT_FLOAT_PRIMARY_FREQUENCY_RANGE,
+    secondaryFrequency: BAT_FLOAT_SECONDARY_FREQUENCY_MIN + hash2D(x, z, 5) * BAT_FLOAT_SECONDARY_FREQUENCY_RANGE,
     primaryPhase: hash2D(x, z, 6),
     secondaryPhase: hash2D(x, z, 7)
   };
@@ -65,6 +74,7 @@ export function createBatSystem({ THREE, scene, camera, terrain, models }) {
   const simple = createSimpleCross(THREE);
   const sineTable = createSineTable();
   const batPool = [];
+  const batMotionByPosition = new Map();
   const terrainSize = terrain.size;
 
   [batHiModel, batMidModel, batLowModel].forEach(model => {
@@ -92,6 +102,16 @@ export function createBatSystem({ THREE, scene, camera, terrain, models }) {
     lod.addLevel(simple.clone(), 30);
     lod.traverse(child => { if (child.isMesh) child.castShadow = true; });
     return lod;
+  }
+
+  function getBatMotion(target) {
+    const key = `${target.x},${target.z}`;
+    let motion = batMotionByPosition.get(key);
+    if (!motion) {
+      motion = getBatMotionFromPosition(target.x, target.z);
+      batMotionByPosition.set(key, motion);
+    }
+    return motion;
   }
 
   function registerBat() {
@@ -139,7 +159,6 @@ export function createBatSystem({ THREE, scene, camera, terrain, models }) {
       if (i < targetPositions.length) {
         batPool[i].visible = true;
         const target = targetPositions[i];
-        const motion = getBatMotionFromPosition(target.x, target.z);
         const distanceToCamera = target.distanceTo(camera.position);
         let lodFrequencyScale = 1;
         if (distanceToCamera > 30) {
@@ -147,7 +166,8 @@ export function createBatSystem({ THREE, scene, camera, terrain, models }) {
         } else if (distanceToCamera > 5) {
           lodFrequencyScale = 0.5;
         }
-        const cycleTime = elapsedTime * BAT_MOTION_SPEED_SCALE * lodFrequencyScale;
+        const cycleTime = elapsedTime * BAT_FLOAT_SPEED_SCALE * lodFrequencyScale;
+        const motion = getBatMotion(target);
         const primaryWave = sampleSine(cycleTime * motion.primaryFrequency + motion.primaryPhase);
         const secondaryWave = sampleSine(cycleTime * motion.secondaryFrequency + motion.secondaryPhase);
         batPool[i].position.set(

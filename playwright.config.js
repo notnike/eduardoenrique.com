@@ -33,6 +33,7 @@ module.exports = defineConfig({
   projects: [
     {
       name: 'chromium-desktop',
+      testIgnore: /.*\.mobile\.spec\.js/,
       use: {
         ...devices['Desktop Chrome'],
         viewport: { width: 1440, height: 900 },
@@ -40,6 +41,7 @@ module.exports = defineConfig({
     },
     {
       name: 'chromium-mobile',
+      testIgnore: /.*\.desktop\.spec\.js/,
       use: {
         ...devices['iPhone 13'],
         browserName: 'chromium',
